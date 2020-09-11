@@ -1,0 +1,134 @@
+:root {
+    --vermelho: #e50914;
+    --preta: #141414;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+/*ELEMENTOS BASE*/
+body {
+    color: #fff;
+    min-width: 540px;
+    background: var(--preta);
+    font-family: 'Arial', Times, serif;
+}
+
+header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header .logo {
+    height: 25px;
+    margin: 15px 0; 
+}
+
+header nav a {
+    color: #aaa;
+    font-weight: bold;
+    margin-right: 15px;
+    text-decoration: none;
+}
+
+header nav a:hover {
+    color: #fff;
+}
+
+.container {
+    margin-top: 6px;
+    margin-left: 55px;
+}
+
+/*FILME PRINCIPAL*/
+.main-film {
+    height: 80vh;
+    display: flex;
+    font-size: 16px;
+    flex-direction: column;
+    background-size: cover;
+    justify-content: center;
+    align-items: flex-start;
+    background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)100%), url('../img/house-of-cards.jpg');
+}
+
+.main-film .container {
+    width: 60%;
+    text-align: justify;
+}
+
+.title {
+    height: 130px;
+    margin-top: 15%;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    margin: 15px 0 20px 0;
+    color: rgb(240, 240, 240);
+}
+
+.rating img {
+    height: 20px;
+}
+
+.rating p {
+    margin-top: 3px;
+    margin-left: 15px;
+}
+
+.description {
+    margin-top: 10px;
+    margin-bottom: 40px;
+    color: rgb(210, 210, 210);
+}
+
+.buttons {
+    margin-bottom: 50px;
+}
+
+.button {
+    border: none;
+    padding: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 15px;
+    border-radius: 4px;
+    transition: .3s ease all;
+}
+
+.button-view, .button-info:hover {
+    color: #000;
+    background-color: rgb(240, 240, 240);
+}
+
+.button-view:hover, .button-info {
+    color: #fff;
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.button i {
+    margin-right: 5px;
+}
+
+.box-film {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.carousel-films {
+    margin: 10px 20px;
+}
+
+.carousel-films h3 {
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
