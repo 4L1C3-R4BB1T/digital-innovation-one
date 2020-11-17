@@ -72,6 +72,7 @@ body {
     margin: 25px;
     border: solid rgb(239, 239, 239) 1.3px;
 }
+
 .profile-photo img {
     height: 6rem;
 }
@@ -138,7 +139,6 @@ body {
 .slides {
     width: 900px;
     position: absolute;
-    
 }
 
 .slides ul {
