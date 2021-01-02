@@ -1,6 +1,5 @@
 ## Sobre
 * Reprodução da página inicial da Netflix utilizando conceitos de flexbox e plugin jQuery Owl Carousel 
-<br>
-<p>Preview</p>
-<img src="https://i.ibb.co/W092LSj/imagem.png" alt="image" border="0">
 
+### Preview
+![Imagem](https://github.com/4L1C3-R4BB1T/digital-innovation-one/raw/master/_assets/netflix.png)

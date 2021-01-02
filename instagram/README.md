@@ -1,6 +1,6 @@
 ## Sobre
 * Reprodução da página do Instagram utilizando conceitos de flexbox
-<br>
-<p>Preview</p>
-<img src="https://i.ibb.co/CH6ty2z/image.png" alt="image" border="0">
+
+### Preview
+![Imagem](https://github.com/4L1C3-R4BB1T/digital-innovation-one/raw/master/_assets/instagram.png)
 
