@@ -149,11 +149,7 @@ body {
     opacity: 0;
     position: absolute;
     top: 0;
-    animation-name: animacao;
-    animation-duration: 31.0s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-fill-mode: forwards;
+    animation: animacao 31s infinite linear;
 }
 
 @keyframes animacao {
@@ -179,19 +175,19 @@ body {
 }
 
 .slides ul li:nth-child(2) {
-    animation-delay: 6.0s;
+    animation-delay: 6s;
 }
 
 .slides ul li:nth-child(3) {
-    animation-delay: 12.0s;
+    animation-delay: 12s;
 }
 
 .slides ul li:nth-child(4) {
-    animation-delay: 18.0s;
+    animation-delay: 18s;
 }
 
 .slides ul li:nth-child(5) {
-    animation-delay: 24.0s;
+    animation-delay: 24s;
 }
 
 @media (max-width: 1024px) {
