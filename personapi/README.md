@@ -11,7 +11,7 @@ No terminal, digite o comando:
 ```shell script
 ./mvnw spring-boot:run 
 ```
-Após, acessar o link:
+Após, utilize o link:
 ```
 http://localhost:8080/api/v1/people
 ```
