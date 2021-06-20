@@ -7,7 +7,7 @@ https://personapi-dio-lg.herokuapp.com
 ```
 Link Swagger:
 ```
-http://personapi-dio-lg.herokuapp.com/swagger-ui.html
+https://personapi-dio-lg.herokuapp.com/swagger-ui.html
 ```
 
 ### Como executar o projeto
