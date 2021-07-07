@@ -1,4 +1,4 @@
-package one.digitalinnovation.personapi.openapi;
+package one.digitalinnovation.personapi.controller.openapi;
 
 import java.util.List;
 

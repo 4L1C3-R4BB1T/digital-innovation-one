@@ -1,4 +1,4 @@
-package one.digitalinnovation.personapi.exception;
+package one.digitalinnovation.personapi.exception.config;
 
 import java.time.OffsetDateTime;
 import java.util.List;
