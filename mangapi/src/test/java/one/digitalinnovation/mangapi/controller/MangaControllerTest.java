@@ -2,7 +2,12 @@ package one.digitalinnovation.mangapi.controller;
 
 import static one.digitalinnovation.mangapi.utils.JsonConvertionUtils.asJsonString;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -31,7 +36,9 @@ import one.digitalinnovation.mangapi.service.MangaService;
 public class MangaControllerTest {
 	
 	private static final String MANGA_API_URL_PATH = "/api/v1/mangas";
-   
+    private static final long VALID_MANGA_ID = 1L;
+    private static final long INVALID_MANGA_ID = 2l;
+
     private MockMvc mockMvc;
 
     @Mock
@@ -84,7 +91,7 @@ public class MangaControllerTest {
         // given
         MangaDTO mangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
 
-        //when
+        // when
         when(mangaService.findByName(mangaDTO.getName())).thenReturn(mangaDTO);
 
         // then
@@ -101,7 +108,7 @@ public class MangaControllerTest {
         // given
     	MangaDTO mangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
 
-        //when
+        // when
         when(mangaService.findByName(mangaDTO.getName())).thenThrow(MangaNotFoundException.class);
 
         // then
@@ -115,7 +122,7 @@ public class MangaControllerTest {
         // given
     	MangaDTO mangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
 
-        //when
+        // when
         when(mangaService.listAll()).thenReturn(Collections.singletonList(mangaDTO));
 
         // then
@@ -129,16 +136,37 @@ public class MangaControllerTest {
     
     @Test
     void whenGETListWithoutMangasIsCalledThenOkStatusIsReturned() throws Exception {
-        // given
-    	MangaDTO mangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
+        // when
+    	when(mangaService.listAll()).thenReturn(Collections.emptyList());
 
-        //when
-        when(mangaService.listAll()).thenReturn(Collections.singletonList(mangaDTO));
-
-        // then
+    	// then
         mockMvc.perform(get(MANGA_API_URL_PATH)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+    
+    @Test
+    void whenDELETEIsCalledWithValidIdThenNoContentStatusIsReturned() throws Exception {
+        // when
+    	doNothing().when(mangaService).deleteById(VALID_MANGA_ID);
+
+    	// then
+        mockMvc.perform(delete(MANGA_API_URL_PATH + "/" + VALID_MANGA_ID)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        verify(mangaService, times(1)).deleteById(VALID_MANGA_ID);
+    }
+    
+    @Test
+    void whenDELETEIsCalledWithoutValidIdThenNotFoundStatusIsReturned() throws Exception {
+        // when
+    	doThrow(MangaNotFoundException.class).when(mangaService).deleteById(INVALID_MANGA_ID);
+
+    	// then
+        mockMvc.perform(delete(MANGA_API_URL_PATH + "/" + INVALID_MANGA_ID)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
     
 }

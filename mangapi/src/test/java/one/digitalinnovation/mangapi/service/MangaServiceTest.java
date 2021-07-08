@@ -6,6 +6,9 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
@@ -29,6 +32,8 @@ import one.digitalinnovation.mangapi.repository.MangaRepository;
 @ExtendWith(MockitoExtension.class)
 public class MangaServiceTest {
 		
+    private static final long INVALID_MANGA_ID = 1L;
+	
 	@Mock
     private MangaRepository mangaRepository;
 
@@ -101,10 +106,10 @@ public class MangaServiceTest {
     	MangaDTO expectedFoundMangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
         Manga expectedFoundManga = mangaMapper.toModel(expectedFoundMangaDTO);
 
-        //when
+        // when
         when(mangaRepository.findAll()).thenReturn(Collections.singletonList(expectedFoundManga));
 
-        //then
+        // then
         List<MangaDTO> foundListMangasDTO = mangaService.listAll();
 
         assertThat(foundListMangasDTO, is(not(empty())));
@@ -113,13 +118,39 @@ public class MangaServiceTest {
     
     @Test
     void whenListMangaIsCalledThenReturnAnEmptyListOfMangas() {
-        //when
+        // when
         when(mangaRepository.findAll()).thenReturn(Collections.emptyList());
 
-        //then
+        // then
         List<MangaDTO> foundListMangasDTO = mangaService.listAll();
 
         assertThat(foundListMangasDTO, is(empty()));
+    }
+    
+    @Test
+    void whenExclusionIsCalledWithValidIdThenAMangaShouldBeDeleted() throws MangaNotFoundException{
+        // given
+        MangaDTO expectedDeletedMangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
+        Manga expectedDeletedManga = mangaMapper.toModel(expectedDeletedMangaDTO);
+
+        // when
+        when(mangaRepository.findById(expectedDeletedMangaDTO.getId())).thenReturn(Optional.of(expectedDeletedManga));
+        doNothing().when(mangaRepository).deleteById(expectedDeletedMangaDTO.getId());
+
+        // then
+        mangaService.deleteById(expectedDeletedMangaDTO.getId());
+
+        verify(mangaRepository, times(1)).findById(expectedDeletedMangaDTO.getId());
+        verify(mangaRepository, times(1)).deleteById(expectedDeletedMangaDTO.getId());
+    }
+    
+    @Test
+    void whenExclusionIsCalledWithInvalidIdThenExceptionShouldBeThrown() {
+        // when
+    	when(mangaRepository.findById(INVALID_MANGA_ID)).thenReturn(Optional.empty());
+
+    	// then
+        assertThrows(MangaNotFoundException.class, () -> mangaService.deleteById(INVALID_MANGA_ID));
     }
     
 }
