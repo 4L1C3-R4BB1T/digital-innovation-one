@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Collections;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -106,6 +108,37 @@ public class MangaControllerTest {
         mockMvc.perform(get(MANGA_API_URL_PATH + "/" + mangaDTO.getName())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+    }
+    
+    @Test
+    void whenGETListWithMangasIsCalledThenOkStatusIsReturned() throws Exception {
+        // given
+    	MangaDTO mangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
+
+        //when
+        when(mangaService.listAll()).thenReturn(Collections.singletonList(mangaDTO));
+
+        // then
+        mockMvc.perform(get(MANGA_API_URL_PATH)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name", is(mangaDTO.getName())))
+                .andExpect(jsonPath("$[0].publisher", is(mangaDTO.getPublisher())))
+                .andExpect(jsonPath("$[0].genre", is(mangaDTO.getGenre().toString())));
+    }
+    
+    @Test
+    void whenGETListWithoutMangasIsCalledThenOkStatusIsReturned() throws Exception {
+        // given
+    	MangaDTO mangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
+
+        //when
+        when(mangaService.listAll()).thenReturn(Collections.singletonList(mangaDTO));
+
+        // then
+        mockMvc.perform(get(MANGA_API_URL_PATH)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
     
 }

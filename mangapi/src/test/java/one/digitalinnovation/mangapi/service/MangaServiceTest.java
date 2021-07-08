@@ -1,11 +1,15 @@
 package one.digitalinnovation.mangapi.service;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -89,6 +93,33 @@ public class MangaServiceTest {
 
         // then
         assertThrows(MangaNotFoundException.class, () -> mangaService.findByName(expectedFoundMangaDTO.getName()));
+    }
+    
+    @Test
+    void whenListMangaIsCalledThenReturnAListOfMangas() {
+        // given
+    	MangaDTO expectedFoundMangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
+        Manga expectedFoundManga = mangaMapper.toModel(expectedFoundMangaDTO);
+
+        //when
+        when(mangaRepository.findAll()).thenReturn(Collections.singletonList(expectedFoundManga));
+
+        //then
+        List<MangaDTO> foundListMangasDTO = mangaService.listAll();
+
+        assertThat(foundListMangasDTO, is(not(empty())));
+        assertThat(foundListMangasDTO.get(0), is(equalTo(expectedFoundMangaDTO)));
+    }
+    
+    @Test
+    void whenListMangaIsCalledThenReturnAnEmptyListOfMangas() {
+        //when
+        when(mangaRepository.findAll()).thenReturn(Collections.emptyList());
+
+        //then
+        List<MangaDTO> foundListMangasDTO = mangaService.listAll();
+
+        assertThat(foundListMangasDTO, is(empty()));
     }
     
 }
