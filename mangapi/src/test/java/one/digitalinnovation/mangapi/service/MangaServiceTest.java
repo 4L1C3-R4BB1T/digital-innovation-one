@@ -18,6 +18,7 @@ import one.digitalinnovation.mangapi.builder.MangaDTOBuilder;
 import one.digitalinnovation.mangapi.dto.MangaDTO;
 import one.digitalinnovation.mangapi.entity.Manga;
 import one.digitalinnovation.mangapi.exception.MangaAlreadyRegisteredException;
+import one.digitalinnovation.mangapi.exception.MangaNotFoundException;
 import one.digitalinnovation.mangapi.mapper.MangaMapper;
 import one.digitalinnovation.mangapi.repository.MangaRepository;
 
@@ -61,6 +62,33 @@ public class MangaServiceTest {
 
         // then
         assertThrows(MangaAlreadyRegisteredException.class, () -> mangaService.createManga(expectedMangaDTO));
+    }
+    
+    @Test
+    void whenValidMangaNameIsGivenThenReturnAManga() throws MangaNotFoundException {
+        // given
+        MangaDTO expectedFoundMangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
+        Manga expectedFoundManga = mangaMapper.toModel(expectedFoundMangaDTO);
+
+        // when
+        when(mangaRepository.findByName(expectedFoundManga.getName())).thenReturn(Optional.of(expectedFoundManga));
+
+        // then
+        MangaDTO foundBeerDTO = mangaService.findByName(expectedFoundMangaDTO.getName());
+
+        assertThat(foundBeerDTO, is(equalTo(expectedFoundMangaDTO)));
+    }
+    
+    @Test
+    void whenNotRegisteredMangaNameIsGivenThenThrowAnException() {
+        // given
+    	MangaDTO expectedFoundMangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
+
+        // when
+        when(mangaRepository.findByName(expectedFoundMangaDTO.getName())).thenReturn(Optional.empty());
+
+        // then
+        assertThrows(MangaNotFoundException.class, () -> mangaService.findByName(expectedFoundMangaDTO.getName()));
     }
     
 }

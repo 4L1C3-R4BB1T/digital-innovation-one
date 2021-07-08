@@ -3,6 +3,7 @@ package one.digitalinnovation.mangapi.controller;
 import static one.digitalinnovation.mangapi.utils.JsonConvertionUtils.asJsonString;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import one.digitalinnovation.mangapi.builder.MangaDTOBuilder;
 import one.digitalinnovation.mangapi.dto.MangaDTO;
+import one.digitalinnovation.mangapi.exception.MangaNotFoundException;
 import one.digitalinnovation.mangapi.service.MangaService;
 
 @ExtendWith(MockitoExtension.class)
@@ -73,6 +75,37 @@ public class MangaControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(mangaDTO)))
                 .andExpect(status().isBadRequest());
+    }
+    
+    @Test
+    void whenGETIsCalledWithValidNameThenOkStatusIsReturned() throws Exception {
+        // given
+        MangaDTO mangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
+
+        //when
+        when(mangaService.findByName(mangaDTO.getName())).thenReturn(mangaDTO);
+
+        // then
+        mockMvc.perform(get(MANGA_API_URL_PATH + "/" + mangaDTO.getName())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(mangaDTO.getName())))
+                .andExpect(jsonPath("$.publisher", is(mangaDTO.getPublisher())))
+                .andExpect(jsonPath("$.genre", is(mangaDTO.getGenre().toString())));
+    }
+    
+    @Test
+    void whenGETIsCalledWithoutRegisteredNameThenNotFoundStatusIsReturned() throws Exception {
+        // given
+    	MangaDTO mangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
+
+        //when
+        when(mangaService.findByName(mangaDTO.getName())).thenThrow(MangaNotFoundException.class);
+
+        // then
+        mockMvc.perform(get(MANGA_API_URL_PATH + "/" + mangaDTO.getName())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
     
 }
