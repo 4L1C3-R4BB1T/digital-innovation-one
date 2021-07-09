@@ -3,6 +3,7 @@ package one.digitalinnovation.mangapi.service;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -26,6 +27,7 @@ import one.digitalinnovation.mangapi.dto.MangaDTO;
 import one.digitalinnovation.mangapi.entity.Manga;
 import one.digitalinnovation.mangapi.exception.MangaAlreadyRegisteredException;
 import one.digitalinnovation.mangapi.exception.MangaNotFoundException;
+import one.digitalinnovation.mangapi.exception.MangaStockExceededException;
 import one.digitalinnovation.mangapi.mapper.MangaMapper;
 import one.digitalinnovation.mangapi.repository.MangaRepository;
 
@@ -83,9 +85,9 @@ public class MangaServiceTest {
         when(mangaRepository.findByName(expectedFoundManga.getName())).thenReturn(Optional.of(expectedFoundManga));
 
         // then
-        MangaDTO foundBeerDTO = mangaService.findByName(expectedFoundMangaDTO.getName());
+        MangaDTO foundMangaDTO = mangaService.findByName(expectedFoundMangaDTO.getName());
 
-        assertThat(foundBeerDTO, is(equalTo(expectedFoundMangaDTO)));
+        assertThat(foundMangaDTO, is(equalTo(expectedFoundMangaDTO)));
     }
     
     @Test
@@ -151,6 +153,52 @@ public class MangaServiceTest {
 
     	// then
         assertThrows(MangaNotFoundException.class, () -> mangaService.deleteById(INVALID_MANGA_ID));
+    }
+    
+    @Test
+    void whenIncrementIsCalledThenIncrementMangaStock() throws MangaNotFoundException, MangaStockExceededException {
+    	// given 
+    	MangaDTO expectedMangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
+        Manga expectedManga = mangaMapper.toModel(expectedMangaDTO);
+
+        // when 
+        when(mangaRepository.findById(expectedMangaDTO.getId())).thenReturn(Optional.of(expectedManga));
+        when(mangaRepository.save(expectedManga)).thenReturn(expectedManga);
+
+        int quantityToIncrement = 10;
+        int expectedQuantityAfterIncrement = expectedMangaDTO.getQuantity() + quantityToIncrement;
+       
+        // then
+        MangaDTO incrementedMangaDTO = mangaService.increment(expectedMangaDTO.getId(), quantityToIncrement);
+
+        assertThat(incrementedMangaDTO.getQuantity(), is(equalTo(expectedQuantityAfterIncrement)));
+        assertThat(expectedMangaDTO.getMax(), is(greaterThan(expectedQuantityAfterIncrement)));
+    }
+    
+    @Test
+    void whenIncrementIsGreaterThanMaxThenThrowException() {
+        // given
+    	MangaDTO expectedMangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
+        Manga expectedManga = mangaMapper.toModel(expectedMangaDTO);
+
+        // when
+        when(mangaRepository.findById(expectedMangaDTO.getId())).thenReturn(Optional.of(expectedManga));
+
+        int quantityToIncrement = 80;
+        
+        // then
+        assertThrows(MangaStockExceededException.class, () -> mangaService.increment(expectedMangaDTO.getId(), quantityToIncrement));
+    }
+    
+    @Test
+    void whenIncrementIsCalledWithInvalidIdThenThrowException() {
+        int quantityToIncrement = 10;
+
+        // when
+        when(mangaRepository.findById(INVALID_MANGA_ID)).thenReturn(Optional.empty());
+
+        // then
+        assertThrows(MangaNotFoundException.class, () -> mangaService.increment(INVALID_MANGA_ID, quantityToIncrement));
     }
     
 }

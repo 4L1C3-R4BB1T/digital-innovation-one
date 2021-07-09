@@ -9,6 +9,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -29,13 +30,16 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import one.digitalinnovation.mangapi.builder.MangaDTOBuilder;
 import one.digitalinnovation.mangapi.dto.MangaDTO;
+import one.digitalinnovation.mangapi.dto.QuantityDTO;
 import one.digitalinnovation.mangapi.exception.MangaNotFoundException;
+import one.digitalinnovation.mangapi.exception.MangaStockExceededException;
 import one.digitalinnovation.mangapi.service.MangaService;
 
 @ExtendWith(MockitoExtension.class)
 public class MangaControllerTest {
 	
 	private static final String MANGA_API_URL_PATH = "/api/v1/mangas";
+	private static final String MANGA_API_SUBPATH_INCREMENT_URL = "/increment";
     private static final long VALID_MANGA_ID = 1L;
     private static final long INVALID_MANGA_ID = 2l;
 
@@ -166,6 +170,59 @@ public class MangaControllerTest {
     	// then
         mockMvc.perform(delete(MANGA_API_URL_PATH + "/" + INVALID_MANGA_ID)
                 .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+    
+    @Test
+    void whenPATCHIsCalledToIncrementStockThenOKstatusIsReturned() throws Exception {
+        // given
+    	QuantityDTO quantityDTO = QuantityDTO.builder().quantity(10).build();
+
+        MangaDTO mangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
+        mangaDTO.setQuantity(mangaDTO.getQuantity() + quantityDTO.getQuantity());
+
+        // when
+        when(mangaService.increment(VALID_MANGA_ID, quantityDTO.getQuantity())).thenReturn(mangaDTO);
+
+        // then
+        mockMvc.perform(patch(MANGA_API_URL_PATH + "/" + VALID_MANGA_ID + MANGA_API_SUBPATH_INCREMENT_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(quantityDTO))).andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(mangaDTO.getName())))
+                .andExpect(jsonPath("$.publisher", is(mangaDTO.getPublisher())))
+                .andExpect(jsonPath("$.genre", is(mangaDTO.getGenre().toString())))
+                .andExpect(jsonPath("$.quantity", is(mangaDTO.getQuantity())));
+    }
+    
+    @Test
+    void whenPATCHIsCalledToIncrementGreaterThanMaxThenBadRequestStatusIsReturned() throws Exception {
+        // given
+    	QuantityDTO quantityDTO = QuantityDTO.builder().quantity(30).build();
+
+        MangaDTO mangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
+        mangaDTO.setQuantity(mangaDTO.getQuantity() + quantityDTO.getQuantity());
+
+        // when
+        when(mangaService.increment(VALID_MANGA_ID, quantityDTO.getQuantity())).thenThrow(MangaStockExceededException.class);
+
+        // then
+        mockMvc.perform(patch(MANGA_API_URL_PATH + "/" + VALID_MANGA_ID + MANGA_API_SUBPATH_INCREMENT_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(quantityDTO))).andExpect(status().isBadRequest());
+    }
+    
+    @Test
+    void whenPATCHIsCalledWithInvalidMangaIdToIncrementThenNotFoundStatusIsReturned() throws Exception {
+    	// given
+    	QuantityDTO quantityDTO = QuantityDTO.builder().quantity(30).build();
+
+    	// when
+        when(mangaService.increment(INVALID_MANGA_ID, quantityDTO.getQuantity())).thenThrow(MangaNotFoundException.class);
+       
+        // then
+        mockMvc.perform(patch(MANGA_API_URL_PATH + "/" + INVALID_MANGA_ID + MANGA_API_SUBPATH_INCREMENT_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(quantityDTO)))
                 .andExpect(status().isNotFound());
     }
     

@@ -49,8 +49,8 @@ public class MangaService {
     }
     
     private void verifyIfIsAlreadyRegistered(String name) throws MangaAlreadyRegisteredException {
-        Optional<Manga> optSavedBeer = mangaRepository.findByName(name);
-        if (optSavedBeer.isPresent()) {
+        Optional<Manga> optSavedManga = mangaRepository.findByName(name);
+        if (optSavedManga.isPresent()) {
             throw new MangaAlreadyRegisteredException(name);
         }
     }
@@ -61,12 +61,12 @@ public class MangaService {
     }
     
     public MangaDTO increment(Long id, int quantityToIncrement) throws MangaNotFoundException, MangaStockExceededException {
-        Manga beerToIncrementStock = verifyIfExists(id);
-        int quantityAfterIncrement = quantityToIncrement + beerToIncrementStock.getQuantity();
-        if (quantityAfterIncrement <= beerToIncrementStock.getMax()) {
-            beerToIncrementStock.setQuantity(beerToIncrementStock.getQuantity() + quantityToIncrement);
-            Manga incrementedBeerStock = mangaRepository.save(beerToIncrementStock);
-            return mangaMapper.toDTO(incrementedBeerStock);
+        Manga mangaToIncrementStock = verifyIfExists(id);
+        int quantityAfterIncrement = quantityToIncrement + mangaToIncrementStock.getQuantity();
+        if (quantityAfterIncrement <= mangaToIncrementStock.getMax()) {
+            mangaToIncrementStock.setQuantity(mangaToIncrementStock.getQuantity() + quantityToIncrement);
+            Manga incrementedMangaStock = mangaRepository.save(mangaToIncrementStock);
+            return mangaMapper.toDTO(incrementedMangaStock);
         }
         throw new MangaStockExceededException(id, quantityToIncrement);
     }
