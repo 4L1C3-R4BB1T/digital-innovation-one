@@ -40,6 +40,7 @@ public class MangaControllerTest {
 	
 	private static final String MANGA_API_URL_PATH = "/api/v1/mangas";
 	private static final String MANGA_API_SUBPATH_INCREMENT_URL = "/increment";
+	private static final String MANGA_API_SUBPATH_DECREMENT_URL = "/decrement";
     private static final long VALID_MANGA_ID = 1L;
     private static final long INVALID_MANGA_ID = 2l;
 
@@ -221,6 +222,59 @@ public class MangaControllerTest {
        
         // then
         mockMvc.perform(patch(MANGA_API_URL_PATH + "/" + INVALID_MANGA_ID + MANGA_API_SUBPATH_INCREMENT_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(quantityDTO)))
+                .andExpect(status().isNotFound());
+    }
+    
+    @Test
+    void whenPATCHIsCalledToDecrementStockThenOKstatusIsReturned() throws Exception {
+    	// given
+    	QuantityDTO quantityDTO = QuantityDTO.builder().quantity(5).build();
+
+        MangaDTO mangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
+        mangaDTO.setQuantity(mangaDTO.getQuantity() + quantityDTO.getQuantity());
+
+        // when
+        when(mangaService.decrement(VALID_MANGA_ID, quantityDTO.getQuantity())).thenReturn(mangaDTO);
+
+        // then
+        mockMvc.perform(patch(MANGA_API_URL_PATH + "/" + VALID_MANGA_ID + MANGA_API_SUBPATH_DECREMENT_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(quantityDTO))).andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(mangaDTO.getName())))
+                .andExpect(jsonPath("$.publisher", is(mangaDTO.getPublisher())))
+                .andExpect(jsonPath("$.genre", is(mangaDTO.getGenre().toString())))
+                .andExpect(jsonPath("$.quantity", is(mangaDTO.getQuantity())));
+    }
+    
+    @Test
+    void whenPATCHIsCalledToDecrementLowerThanZeroThenBadRequestStatusIsReturned() throws Exception {
+        // given
+    	QuantityDTO quantityDTO = QuantityDTO.builder().quantity(60).build();
+
+        MangaDTO mangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
+        mangaDTO.setQuantity(mangaDTO.getQuantity() + quantityDTO.getQuantity());
+
+        // when
+        when(mangaService.decrement(VALID_MANGA_ID, quantityDTO.getQuantity())).thenThrow(MangaStockExceededException.class);
+
+        // then
+        mockMvc.perform(patch(MANGA_API_URL_PATH + "/" + VALID_MANGA_ID + MANGA_API_SUBPATH_DECREMENT_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(quantityDTO))).andExpect(status().isBadRequest());
+    }
+    
+    @Test
+    void whenPATCHIsCalledWithInvalidMangaIdToDecrementThenNotFoundStatusIsReturned() throws Exception {
+        // given
+    	QuantityDTO quantityDTO = QuantityDTO.builder().quantity(5).build();
+
+    	// when
+        when(mangaService.decrement(INVALID_MANGA_ID, quantityDTO.getQuantity())).thenThrow(MangaNotFoundException.class);
+        
+        // then
+        mockMvc.perform(patch(MANGA_API_URL_PATH + "/" + INVALID_MANGA_ID + MANGA_API_SUBPATH_DECREMENT_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(quantityDTO)))
                 .andExpect(status().isNotFound());

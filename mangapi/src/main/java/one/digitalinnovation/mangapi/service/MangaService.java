@@ -64,11 +64,22 @@ public class MangaService {
         Manga mangaToIncrementStock = verifyIfExists(id);
         int quantityAfterIncrement = quantityToIncrement + mangaToIncrementStock.getQuantity();
         if (quantityAfterIncrement <= mangaToIncrementStock.getMax()) {
-            mangaToIncrementStock.setQuantity(mangaToIncrementStock.getQuantity() + quantityToIncrement);
+            mangaToIncrementStock.setQuantity(quantityAfterIncrement);
             Manga incrementedMangaStock = mangaRepository.save(mangaToIncrementStock);
             return mangaMapper.toDTO(incrementedMangaStock);
         }
         throw new MangaStockExceededException(id, quantityToIncrement);
+    }
+    
+    public MangaDTO decrement(Long id, int quantityToDecrement) throws MangaNotFoundException, MangaStockExceededException {
+        Manga mangaToDecrementStock = verifyIfExists(id);
+        int quantityAfterDecrement = mangaToDecrementStock.getQuantity() - quantityToDecrement;
+        if (quantityAfterDecrement >= 0) {
+        	mangaToDecrementStock.setQuantity(quantityAfterDecrement);
+            Manga decrementedMangaStock = mangaRepository.save(mangaToDecrementStock);
+            return mangaMapper.toDTO(decrementedMangaStock);
+        }
+        throw new MangaStockExceededException(id, quantityToDecrement);
     }
 
 }

@@ -59,4 +59,9 @@ public class MangaController implements MangaControllerOpenApi {
         return mangaService.increment(id, quantityDTO.getQuantity());
     }
 	
+	@PatchMapping("/{id}/decrement")
+    public MangaDTO decrement(@PathVariable Long id, @RequestBody @Valid QuantityDTO quantityDTO) throws MangaNotFoundException, MangaStockExceededException {
+        return mangaService.decrement(id, quantityDTO.getQuantity());
+    }
+	
 }

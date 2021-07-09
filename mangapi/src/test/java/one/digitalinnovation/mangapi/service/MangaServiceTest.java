@@ -201,4 +201,70 @@ public class MangaServiceTest {
         assertThrows(MangaNotFoundException.class, () -> mangaService.increment(INVALID_MANGA_ID, quantityToIncrement));
     }
     
+    @Test
+    void whenDecrementIsCalledThenDecrementMangaStock() throws MangaNotFoundException, MangaStockExceededException {
+    	// given
+    	MangaDTO expectedMangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
+        Manga expectedManga = mangaMapper.toModel(expectedMangaDTO);
+
+        // when
+        when(mangaRepository.findById(expectedMangaDTO.getId())).thenReturn(Optional.of(expectedManga));
+        when(mangaRepository.save(expectedManga)).thenReturn(expectedManga);
+
+        int quantityToDecrement = 5;
+        int expectedQuantityAfterDecrement = expectedMangaDTO.getQuantity() - quantityToDecrement;
+        
+        // then
+        MangaDTO decrementedMangaDTO = mangaService.decrement(expectedMangaDTO.getId(), quantityToDecrement);
+
+        assertThat(decrementedMangaDTO.getQuantity(), is(equalTo(expectedQuantityAfterDecrement)));
+        assertThat(expectedQuantityAfterDecrement, is(greaterThan(0)));
+    }
+    
+    @Test
+    void whenDecrementIsCalledToEmptyStockThenEmptyMangaStock() throws MangaNotFoundException, MangaStockExceededException {
+        // given
+    	MangaDTO expectedMangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
+        Manga expectedManga = mangaMapper.toModel(expectedMangaDTO);
+
+        // when
+        when(mangaRepository.findById(expectedMangaDTO.getId())).thenReturn(Optional.of(expectedManga));
+        when(mangaRepository.save(expectedManga)).thenReturn(expectedManga);
+
+        int quantityToDecrement = 10;
+        int expectedQuantityAfterDecrement = expectedMangaDTO.getQuantity() - quantityToDecrement;
+        
+        // then
+        MangaDTO decrementedMangaDTO = mangaService.decrement(expectedMangaDTO.getId(), quantityToDecrement);
+
+        assertThat(expectedQuantityAfterDecrement, is(equalTo(0)));
+        assertThat(expectedQuantityAfterDecrement, is(equalTo(decrementedMangaDTO.getQuantity())));
+    }
+    
+    @Test
+    void whenDecrementIsLowerThanZeroThenThrowException() {
+        // given
+    	MangaDTO expectedMangaDTO = MangaDTOBuilder.builder().build().toMangaDTO();
+        Manga expectedManga = mangaMapper.toModel(expectedMangaDTO);
+
+        // when
+        when(mangaRepository.findById(expectedMangaDTO.getId())).thenReturn(Optional.of(expectedManga));
+
+        int quantityToDecrement = 80;
+        
+        // then
+        assertThrows(MangaStockExceededException.class, () -> mangaService.decrement(expectedMangaDTO.getId(), quantityToDecrement));
+    }
+    
+    @Test
+    void whenDecrementIsCalledWithInvalidIdThenThrowException() {
+        int quantityToDecrement = 10;
+
+        // when
+        when(mangaRepository.findById(INVALID_MANGA_ID)).thenReturn(Optional.empty());
+
+        // then
+        assertThrows(MangaNotFoundException.class, () -> mangaService.decrement(INVALID_MANGA_ID, quantityToDecrement));
+    }
+    
 }
