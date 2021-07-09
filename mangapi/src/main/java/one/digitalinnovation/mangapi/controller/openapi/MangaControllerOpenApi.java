@@ -58,7 +58,7 @@ public interface MangaControllerOpenApi {
     @ApiOperation(value = "Decrement manga by a given id quantity in a stock")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success manga decremented in stock"),
-            @ApiResponse(code = 400, message = "Manga not successfully increment in stock"),
+            @ApiResponse(code = 400, message = "Manga not successfully decrement in stock"),
             @ApiResponse(code = 404, message = "Manga with given id not found.")
     })
     MangaDTO decrement(@PathVariable Long id, @RequestBody @Valid QuantityDTO quantityDTO) throws MangaNotFoundException, MangaStockExceededException;
