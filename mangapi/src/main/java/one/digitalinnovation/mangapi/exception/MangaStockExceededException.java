@@ -9,7 +9,7 @@ public class MangaStockExceededException extends Exception {
 	private static final long serialVersionUID = 1L;
 	
 	public MangaStockExceededException(Long id, int quantityToIncrement) {
-        super(String.format("Manga with id %s to increment informed exceeds the max stock capacity: %s", id, quantityToIncrement));
+        super(String.format("Manga with id %s to increment or decrement informed exceeds the max or min stock capacity: %s.", id, quantityToIncrement));
     }
 
 }
