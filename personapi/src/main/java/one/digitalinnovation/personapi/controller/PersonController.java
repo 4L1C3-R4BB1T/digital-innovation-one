@@ -28,7 +28,7 @@ import one.digitalinnovation.personapi.service.PersonService;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PersonController implements PersonControllerOpenApi {
 
-    private PersonService personService;
+    private final PersonService personService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

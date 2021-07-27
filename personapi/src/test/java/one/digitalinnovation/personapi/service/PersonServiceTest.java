@@ -41,7 +41,7 @@ public class PersonServiceTest {
 
     private MessageResponseDTO createExpectedSuccessMessage(Long savedPersonId) {
         return MessageResponseDTO.builder()
-                .message("Created person with ID " + savedPersonId)
+                .message("Created person with id " + savedPersonId)
                 .build();
     }
 

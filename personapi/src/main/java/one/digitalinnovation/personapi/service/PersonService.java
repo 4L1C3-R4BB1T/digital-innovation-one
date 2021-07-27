@@ -18,14 +18,13 @@ import one.digitalinnovation.personapi.repository.PersonRepository;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PersonService {
 	
-    private PersonRepository personRepository;
-
+    private final PersonRepository personRepository;
     private final PersonMapper personMapper = PersonMapper.INSTANCE;
 
     public MessageResponseDTO createPerson(PersonDTO personDTO) {
         Person personToSave = personMapper.toModel(personDTO);
         Person savedPerson = personRepository.save(personToSave);
-        return createMessageResponse(savedPerson.getId(), "Created person with ID ");
+        return createMessageResponse(savedPerson.getId(), "Created person with id ");
     }
 
     public List<PersonDTO> listAll() {
@@ -49,7 +48,7 @@ public class PersonService {
         verifyIfExists(id);
         Person personToUpdate = personMapper.toModel(personDTO);
         Person updatedPerson = personRepository.save(personToUpdate);
-        return createMessageResponse(updatedPerson.getId(), "Updated person with ID ");
+        return createMessageResponse(updatedPerson.getId(), "Updated person with id ");
     }
 
     private Person verifyIfExists(Long id) throws PersonNotFoundException {
