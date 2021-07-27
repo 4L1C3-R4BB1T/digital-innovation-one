@@ -23,14 +23,14 @@ public interface MangaControllerOpenApi {
 	@ApiOperation(value = "Manga creation operation")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Success manga creation"),
-            @ApiResponse(code = 400, message = "Missing required fields or wrong field range value.")
+            @ApiResponse(code = 400, message = "Missing required fields or wrong field range value")
     })
     MangaDTO createManga(MangaDTO mangaDTO) throws MangaAlreadyRegisteredException;
 
 	@ApiOperation(value = "Returns manga found by a given name")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Success manga found in the system"),
-			@ApiResponse(code = 404, message = "Manga with given name not found.")
+			@ApiResponse(code = 404, message = "Manga with given name not found")
 	})
 	MangaDTO findByName(@PathVariable String name) throws MangaNotFoundException;
 	
@@ -40,10 +40,10 @@ public interface MangaControllerOpenApi {
     })
     List<MangaDTO> listMangas();
 	
-	@ApiOperation(value = "Delete a manga found by a given valid Id")
+	@ApiOperation(value = "Delete a manga found by a given valid id")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Success manga deleted in the system"),
-            @ApiResponse(code = 404, message = "Manga with given id not found.")
+            @ApiResponse(code = 404, message = "Manga with given id not found")
     })
     void deleteById(@PathVariable Long id) throws MangaNotFoundException;
 	
@@ -51,7 +51,7 @@ public interface MangaControllerOpenApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success manga incremented in stock"),
             @ApiResponse(code = 400, message = "Manga not successfully increment in stock"),
-            @ApiResponse(code = 404, message = "Manga with given id not found.")
+            @ApiResponse(code = 404, message = "Manga with given id not found")
     })
     MangaDTO increment(@PathVariable Long id, @RequestBody @Valid QuantityDTO quantityDTO) throws MangaNotFoundException, MangaStockExceededException;
     
@@ -59,7 +59,7 @@ public interface MangaControllerOpenApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success manga decremented in stock"),
             @ApiResponse(code = 400, message = "Manga not successfully decrement in stock"),
-            @ApiResponse(code = 404, message = "Manga with given id not found.")
+            @ApiResponse(code = 404, message = "Manga with given id not found")
     })
     MangaDTO decrement(@PathVariable Long id, @RequestBody @Valid QuantityDTO quantityDTO) throws MangaNotFoundException, MangaStockExceededException;
 	
