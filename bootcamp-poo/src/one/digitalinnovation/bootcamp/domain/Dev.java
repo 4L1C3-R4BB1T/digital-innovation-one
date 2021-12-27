@@ -2,6 +2,7 @@ package one.digitalinnovation.bootcamp.domain;
 
 import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 public class Dev {
@@ -19,12 +20,6 @@ public class Dev {
 		this.nome = nome;
 	}
 	
-	public Dev(String nome, Set<Conteudo> conteudosInscritos, Set<Conteudo> conteudosConcluidos) {
-		this.nome = nome;
-		this.conteudosInscritos = conteudosInscritos;
-		this.conteudosConcluidos = conteudosConcluidos;
-	}
-
 	public String getNome() {
 		return nome;
 	}
@@ -50,15 +45,24 @@ public class Dev {
 	}
 
 	public void inscreverBootcamp(Bootcamp bootcamp) {
-		
+		conteudosInscritos.addAll(bootcamp.getConteudos());
+		bootcamp.getDevsInscritos().add(this);
 	}
 	
 	public void progredir() {
-		
+		Optional<Conteudo> conteudo = conteudosInscritos.stream().findFirst();
+		if (conteudo.isPresent()) {
+			conteudosConcluidos.add(conteudo.get());
+			conteudosInscritos.remove(conteudo.get());
+		} else {
+			System.err.println("Você não está matriculado em nenhum conteúdo!");
+		}
 	}
 	
-	public void calcularXp() {
-		
+	public double calcularXp() {
+		return conteudosConcluidos.stream()
+				.mapToDouble(Conteudo::calcularXp)
+				.sum();
 	}
 
 	@Override
