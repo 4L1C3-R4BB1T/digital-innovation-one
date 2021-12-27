@@ -1,37 +1,18 @@
 package one.digitalinnovation.bootcamp.domain;
 
-public class Curso {
+public class Curso extends Conteudo {
 	
-	private String titulo;
-	private String descricao;
 	private Integer cargaHoraria;
 	
 	public Curso() {
-		
+		super();
 	}
 	
 	public Curso(String titulo, String descricao, Integer cargaHoraria) {
-		this.titulo = titulo;
-		this.descricao = descricao;
+		super(titulo, descricao);
 		this.cargaHoraria = cargaHoraria;
 	}
 
-	public String getTitulo() {
-		return titulo;
-	}
-	
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-	
-	public String getDescricao() {
-		return descricao;
-	}
-	
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-	
 	public Integer getCargaHoraria() {
 		return cargaHoraria;
 	}
@@ -39,11 +20,16 @@ public class Curso {
 	public void setCargaHoraria(Integer cargaHoraria) {
 		this.cargaHoraria = cargaHoraria;
 	}
+	
+	@Override
+	public double calcularXp() {
+		return XP_PADRAO * cargaHoraria;
+	}
 
 	@Override
 	public String toString() {
-		return "CURSO\nTitulo: " + titulo 
-				+ "\nDescricao: " + descricao 
+		return "CURSO\nTitulo: " + getTitulo() 
+				+ "\nDescricao: " + getDescricao() 
 				+ "\nCarga Horaria: " + cargaHoraria + "\n";
 	}
 	
