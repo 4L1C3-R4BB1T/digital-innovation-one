@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -7,15 +9,16 @@ body {
     height: 95vh;
     width: 95vw;
     display: flex;
-    font-family: arial;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     color: rgb(44, 139, 44);
+    font-family: 'Press Start 2P', arial;
 }
 
 h1 {
     margin-top: 30px;
+    font-size: 25px;
 }
 
 img {
@@ -24,11 +27,34 @@ img {
 
 p {
     width: 512px;
-    margin: 10px;
+    margin: 40px 0 10px;
     text-align: left;
     font-weight: bold;
+    font-size: 14px;
 }
 
 span {
     color: red;
+}
+
+canvas {
+    border: black 0.5px solid;
+}
+
+.game-over {
+    text-align: center;
+    color: rgb(44, 139, 44);
+}
+
+button {
+    height: 50px;
+    width: 150px;
+    border: black 1.5px solid;
+    margin-top: 30px;
+    font-size: 16px;
+    color: red;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-weight: bold;
+    background: rgb(248, 247, 247);
 }
