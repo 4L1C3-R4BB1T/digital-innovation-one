@@ -83,7 +83,6 @@ function gameOver() {
     for (i = 1; i < snake.length; i++) {
         if (snake[0].x == snake[i].x && snake[0].y == snake[i].y) {
             clearInterval(game);
-            // alert('GAME OVER :(');
             document.body.innerHTML = '<h1 class="game-over">Game Over<br><a href="index.html"><button>Jogar de Novo</button></a></h1>';
         }
     }
