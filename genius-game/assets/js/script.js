@@ -36,15 +36,19 @@ let lightColor = (element, number) => {
 
 // checa se os botões clicados são os mesmos da ordem gerada no jogo
 let checkOrder = () => {
+    let wrong = false;
+
     for (let i in clickedOrder) {
         if (clickedOrder[i] != order[i]) {
             gameOver();
+            wrong = true;
             break;
         }
     }
 
-    if (clickedOrder.length == order.length) {
-        alert(`Pontuação ${score}\nVocê acertou! Iniciando próximo nível!`);
+    if (clickedOrder.length == order.length && !wrong) {
+        alert(`Você acertou! Iniciando próximo nível!`);
+        document.getElementById('score').innerHTML = score;
         nextLevel();
     }
 }
@@ -76,23 +80,32 @@ let nextLevel = () => {
 
 // game over
 let gameOver = () => {
-    alert(`Pontuação ${score}\nVocê perdeu o jogo!\nClique em OK para iniciar um novo jogo.`);
+    alert(`Você perdeu o jogo :(`);
     order = [];
     clickedOrder = [];
-    playGame();
+    document.querySelector('.btn-play').disabled = false;
+
+    // remover eventos de clique
+    green.onclick = "";
+    red.onclick = "";
+    yellow.onclick = "";
+    blue.onclick = "";
 }
 
 // iniciar jogo
 let playGame = () => {
+    // eventos de clique para as cores
+    green.onclick = () => click(0);
+    red.onclick = () => click(1);
+    yellow.onclick = () => click(2);
+    blue.onclick = () => click(3);
+
     alert(`Bem vindo ao Genius! Iniciando novo jogo!`);
+    
     score = 0;
+    
+    document.getElementById('score').innerHTML = score;
+    document.querySelector('.btn-play').disabled = true;
+    
     nextLevel();
 }
-
-// eventos de clique para as cores
-green.onclick = () => click(0);
-red.onclick = () => click(1);
-yellow.onclick = () => click(2);
-blue.onclick = () => click(3);
-
-playGame();
