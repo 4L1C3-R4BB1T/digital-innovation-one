@@ -78,27 +78,37 @@ let nextLevel = () => {
     shuffleOrder();
 }
 
-// game over
-let gameOver = () => {
-    alert(`Você perdeu o jogo :(`);
-    order = [];
-    clickedOrder = [];
-    document.querySelector('.btn-play').disabled = false;
+// eventos de clique para as cores
+let addEventClick = () => {
+    green.onclick = () => click(0);
+    red.onclick = () => click(1);
+    yellow.onclick = () => click(2);
+    blue.onclick = () => click(3);
+}
 
-    // remover eventos de clique
+// remover eventos de clique
+let removeEventClick = () => {
     green.onclick = "";
     red.onclick = "";
     yellow.onclick = "";
     blue.onclick = "";
 }
 
+// game over
+let gameOver = () => {
+    alert(`Você perdeu o jogo :(`);
+    
+    order = [];
+    clickedOrder = [];
+    
+    document.querySelector('.btn-play').disabled = false;
+    
+    removeEventClick();
+}
+
 // iniciar jogo
 let playGame = () => {
-    // eventos de clique para as cores
-    green.onclick = () => click(0);
-    red.onclick = () => click(1);
-    yellow.onclick = () => click(2);
-    blue.onclick = () => click(3);
+    addEventClick();
 
     alert(`Bem vindo ao Genius! Iniciando novo jogo!`);
     
