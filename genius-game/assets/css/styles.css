@@ -68,26 +68,33 @@ body {
     opacity: 0.5;
 }
 
-.btn-play {
+.options {
+    width: 430px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-play, #difficulty {
     height: 50px;
     width: 200px;
     font-size: 22px;
     font-family: 'Press Start 2P', cursive;
+    text-align: center;
     border: 4px solid black;
     border-radius: 10px;
     cursor: pointer;
     background-color: var(--primary);
 }
 
-.btn-play:disabled {
-    cursor: not-allowed;
-    border-color: rgb(117, 117, 117);
-}
-
-.btn-play:hover {
+.btn-play:hover, #difficulty:hover {
     color: rgb(58, 58, 58);
     border-color: rgb(58, 58, 58);
     background-color: var(--secondary);
+}
+
+.btn-play:disabled, #difficulty:disabled {
+    cursor: not-allowed;
+    border-color: rgb(117, 117, 117);
 }
 
 .score-game {

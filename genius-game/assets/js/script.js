@@ -3,6 +3,8 @@ let clickedOrder = [];
 
 let score = 0;
 
+let difficulty = 0;
+
 // 0 - green | 1 - red | 2 - yellow | 3 - blue
 const green = document.querySelector('.green');
 const red = document.querySelector('.red');
@@ -23,11 +25,11 @@ let shuffleOrder = () => {
 
 // acende a proxima cor
 let lightColor = (element, number) => {
-    number *= 500;
+    number *= difficulty;
     
     setTimeout(() => {
         element.classList.add('selected');
-    }, number - 250);
+    }, number - difficulty/2);
 
     setTimeout(() => {
         element.classList.remove('selected');
@@ -102,7 +104,8 @@ let gameOver = () => {
     clickedOrder = [];
     
     document.querySelector('.btn-play').disabled = false;
-    
+    document.querySelector('#difficulty').disabled = false;
+
     removeEventClick();
 }
 
@@ -116,6 +119,8 @@ let playGame = () => {
     
     document.getElementById('score').innerHTML = score;
     document.querySelector('.btn-play').disabled = true;
-    
+    document.querySelector('#difficulty').disabled = true;
+    difficulty = document.getElementById("difficulty").value;
+
     nextLevel();
 }
