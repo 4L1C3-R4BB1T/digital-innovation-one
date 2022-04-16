@@ -17,16 +17,70 @@ body {
     background-image: url(../img/space.png);
 }
 
+.info {
+    height: 68%;
+   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-info {
+    height: 200px;
+    width: 500px;
+    margin: auto;
+    padding: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 40px;
+    font-size: 22px;
+    text-align: center;
+    line-height: 32px;
+    background-color: white;
+    border: 4px solid black;
+    border-radius: 30px;
+    position: relative;
+    z-index: 999;
+}
+
+.start {
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.start:hover {
+    color: grey;
+}
+
 .player {
-    height: 7em;
-    width: 8.5em;
+    height: 120px;
+    width: 150px;
     top: 300px;
     left: 300px;
     position: relative;
+    z-index: 1;
 }
 
 .laser {
     height: 90px;
     width: 120px;
     position: relative;
+}
+
+.alien, .dead-alien {
+    height: 100px;
+    width: 130px;
+    position: relative;
+}
+
+.alien-transition {
+    opacity: 1;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.dead-alien {
+    opacity: 0;
 }
