@@ -2,21 +2,29 @@
 <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
-        <link rel="icon" href="assets/img/hero.png" />
+        <link rel="icon" href="assets/img/alien-2.png" />
         <link href="assets/css/styles.css" rel="stylesheet" type="text/css">
         <title>Space Shooter</title>
     </head>
     <body>
-        <div id="main-game">
-            <img class="player" src="assets/img/hero.png" alt="hero">
-            <div class="game-info">
-                Não deixe os inimigos invadirem o seu planeta!
-                <br/>
-                Utilize a seta para cima e para baixo para se mover
-                e espaço para atirar.
-                <span class="start" onclick="playGame()">START</span>
+        <div class="container">
+            <div id="main-game">
+                <div class="score-game">
+                    SCORE:<span id="score">0</span>
+                </div>
+                <div class="game-info">
+                    Não deixe os inimigos invadirem o seu planeta!
+                    <br/>
+                    Utilize a seta para cima ⬆️ e para baixo ⬇️ para se mover
+                    e espaço para atirar.
+                    <span class="start" onclick="playGame()">START</span>
+                </div>
             </div>
         </div>
+        <audio src="assets/music/bgm.wav" preload="auto" id="bgm"></audio>
+        <audio src="assets/music/shot.mp3" preload="auto" id="shot"></audio>
+        <audio src="assets/music/gameOver.wav" preload="auto" id="gameover"></audio>
+        <audio src="assets/music/explosion.wav" preload="auto" id="explosion"></audio>
         <script type="text/javascript" src="assets/js/script.js"></script>
     </body>
 </html>
