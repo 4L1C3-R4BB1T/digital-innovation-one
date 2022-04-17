@@ -15,7 +15,7 @@ let alienInterval;
 let canShot = true;
 let velocity = 4;
 let score = 0;
-let time = 4000;
+let time = 3000;
 
 // movimento e tiro da nave
 function flyShip(event) {
@@ -81,6 +81,11 @@ function createLaserElement() {
 
 function moveLaser(laser) {
     setInterval(() => {
+        /*
+            mesmo apos removido o laser continuava contando 
+            como existente, entao atribui null para o valor 
+            do laser enquanto um novo laser nao eh criado
+        */
         if (laser) {
             let laserLeft = parseInt(laser.style.left);
             let aliens = document.querySelectorAll('.alien');
@@ -144,7 +149,8 @@ function moveAlien(alien) {
     setInterval(() => {
         let alienLeft = parseInt(window.getComputedStyle(alien).getPropertyValue('left'));
         
-        if (alienLeft <= 125 && Array.from(alien.classList).includes('alien')) {
+        if (alienLeft <= 125 && 
+            Array.from(alien.classList).includes('alien')) {
             gameOver();
         } else {
             alien.style.left = `${alienLeft - velocity}px`;
@@ -158,13 +164,14 @@ function laserCollision(laser, alien) {
     let laserLeft = parseInt(laser.style.left);
     let laserRight = laserLeft + 37;
         
-    let alienTop = parseInt(alien.style.top);
+    let alienTop = parseInt(alien.style.top) - 20;
     let alienLeft = parseInt(alien.style.left) - 124;
-    let alienBottom = alienTop - 100;   
+    let alienBottom = alienTop - 142;   
 
     if (laserLeft != 1040 && laserRight != alienLeft) {
-        if (laserTop <= alienTop && laserTop >= alienBottom 
-            && laserRight >= alienLeft) {
+        if (laserTop <= alienTop && 
+            laserTop >= alienBottom && 
+            laserRight >= alienLeft) {
             return true;
         } 
         return false;
@@ -188,8 +195,8 @@ function gameOver() {
     clearInterval(alienInterval);
 
     playArea.classList.remove('bg-animation');
-    
     playerShip.remove();
+
     gameInfo.style.display = 'flex';
 
     setTimeout(() => {
@@ -202,11 +209,12 @@ function playGame() {
     gameInfo.style.display = 'none';
     playArea.classList.add('bg-animation');
 
+    // insere o player na area de jogo
     let playerDiv = document.createElement('div');
     playerDiv.classList.add('player');
     playArea.appendChild(playerDiv);    
-    
     playerShip = document.querySelector('.player');
+    
     document.getElementById('score').innerHTML = 0;
 
     window.addEventListener('keydown', flyShip);
