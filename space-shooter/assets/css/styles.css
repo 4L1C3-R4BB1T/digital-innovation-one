@@ -23,6 +23,7 @@ body {
     border: 4px solid white;
     border-radius: 10px;
     overflow: hidden;
+    position: relative;
     background-image: url(../img/space.png);
 }
 
@@ -42,7 +43,6 @@ body {
     line-height: 32px;
     border: 4px solid grey;
     border-radius: 30px;
-    position: relative;
     background-color: white;
 }
 
@@ -57,12 +57,32 @@ body {
     color: grey;
 }
 
-.score-game {
+.attributes {
     margin-top: 10px;
-    margin-right: 10px;
-    text-align: end;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     color: white;
     font-family: 'Press Start 2P', sans-serif;
+}
+
+.lifes-game {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.score-game {
+    margin-right: 10px;
+}
+
+#lifes {
+    margin-left: 10px;
+}
+
+#lifes>img {
+    height: 20px;
+    margin-right: 10px;
 }
 
 .player {
@@ -70,20 +90,19 @@ body {
     width: 74px;
     top: 270px;
     left: 40px;
-    position: relative;
-    background: url('../img/ship.png');
+    position: absolute;
 }
 
 .laser {
     height: 9px;
     width: 37px;
-    position: relative;
+    position: absolute;
 }
 
 .alien, .dead-alien {
     height: 122px;
     width: 124px;
-    position: relative;
+    position: absolute;
 }
 
 .alien-transition {
