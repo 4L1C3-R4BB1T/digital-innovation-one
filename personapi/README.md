@@ -1,18 +1,6 @@
 ## Sobre
 Desenvolvimento de uma API REST de gerenciamento de pessoas com Spring. Documentação com Swagger.
 
-Link da API no Heroku: 
-```
-https://personapi-dio-lg.herokuapp.com
-```
-Para as requisições utilize: 
-```
-https://personapi-dio-lg.herokuapp.com/api/v1/people
-```
-Link Swagger:
-```
-https://personapi-dio-lg.herokuapp.com/swagger-ui.html
-```
 ### Como executar o projeto
 No terminal, digite o comando:
 ```shell script
