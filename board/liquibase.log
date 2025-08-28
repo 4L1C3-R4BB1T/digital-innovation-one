@@ -1,0 +1,46 @@
+ago. 28, 2025 8:56:08 PM liquibase.changelog
+INFO: Reading resource: db/changelog/migrations/db.changelog-202508282048.sql
+ago. 28, 2025 8:56:08 PM liquibase.changelog
+INFO: Creating database history table with name: board.databasechangelog
+ago. 28, 2025 8:56:09 PM liquibase.changelog
+INFO: Reading from board.databasechangelog
+ago. 28, 2025 8:56:09 PM liquibase.lockservice
+INFO: Successfully acquired change log lock
+ago. 28, 2025 8:56:09 PM liquibase.command
+INFO: Using deploymentId: 6425369148
+ago. 28, 2025 8:56:09 PM liquibase.changelog
+INFO: Reading from board.databasechangelog
+Running Changeset: db/changelog/migrations/db.changelog-202508282048.sql::202508282048::livia
+ago. 28, 2025 8:56:09 PM liquibase.changelog
+INFO: Custom SQL executed
+ago. 28, 2025 8:56:09 PM liquibase.changelog
+INFO: ChangeSet db/changelog/migrations/db.changelog-202508282048.sql::202508282048::livia ran successfully in 27ms
+
+UPDATE SUMMARY
+Run:                          1
+Previously run:               0
+Filtered out:                 0
+-------------------------------
+Total change sets:            1
+
+ago. 28, 2025 8:56:09 PM liquibase.util
+INFO: UPDATE SUMMARY
+ago. 28, 2025 8:56:09 PM liquibase.util
+INFO: Run:                          1
+ago. 28, 2025 8:56:09 PM liquibase.util
+INFO: Previously run:               0
+ago. 28, 2025 8:56:09 PM liquibase.util
+INFO: Filtered out:                 0
+ago. 28, 2025 8:56:09 PM liquibase.util
+INFO: -------------------------------
+ago. 28, 2025 8:56:09 PM liquibase.util
+INFO: Total change sets:            1
+ago. 28, 2025 8:56:09 PM liquibase.util
+INFO: Update summary generated
+ago. 28, 2025 8:56:09 PM liquibase.command
+INFO: Update command completed successfully.
+Liquibase: Update has been successful. Rows affected: 1
+ago. 28, 2025 8:56:09 PM liquibase.lockservice
+INFO: Successfully released change log lock
+ago. 28, 2025 8:56:09 PM liquibase.command
+INFO: Command execution complete
