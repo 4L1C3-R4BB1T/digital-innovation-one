@@ -7,4 +7,4 @@ CREATE TABLE boards(
     name    VARCHAR(255)    NOT NULL
 ) ENGINE=InnoDB;
 
---rollback DROP TABLE BOARDS
+--rollback DROP TABLE boards
