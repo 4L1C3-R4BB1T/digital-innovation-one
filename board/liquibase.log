@@ -1,60 +1,39 @@
-ago. 30, 2025 10:17:36 AM liquibase.changelog
+set. 14, 2025 5:13:00 PM liquibase.changelog
 INFO: Reading resource: db/changelog/migrations/db.changelog-202508282048.sql
-ago. 30, 2025 10:17:36 AM liquibase.changelog
+set. 14, 2025 5:13:00 PM liquibase.changelog
 INFO: Reading resource: db/changelog/migrations/db.changelog-202508291027.sql
-ago. 30, 2025 10:17:36 AM liquibase.changelog
+set. 14, 2025 5:13:00 PM liquibase.changelog
 INFO: Reading resource: db/changelog/migrations/db.changelog-202508291817.sql
-ago. 30, 2025 10:17:36 AM liquibase.changelog
+set. 14, 2025 5:13:00 PM liquibase.changelog
 INFO: Reading resource: db/changelog/migrations/db.changelog-202508291820.sql
-ago. 30, 2025 10:17:36 AM liquibase.changelog
+set. 14, 2025 5:13:00 PM liquibase.changelog
 INFO: Reading from board.databasechangelog
-ago. 30, 2025 10:17:37 AM liquibase.lockservice
-INFO: Successfully acquired change log lock
-ago. 30, 2025 10:17:37 AM liquibase.command
-INFO: Using deploymentId: 6559857214
-ago. 30, 2025 10:17:37 AM liquibase.changelog
+Database is up to date, no changesets to execute
+set. 14, 2025 5:13:00 PM liquibase.changelog
 INFO: Reading from board.databasechangelog
-Running Changeset: db/changelog/migrations/db.changelog-202508291027.sql::202508291027::livia
-ago. 30, 2025 10:17:37 AM liquibase.changelog
-INFO: Custom SQL executed
-ago. 30, 2025 10:17:37 AM liquibase.changelog
-INFO: ChangeSet db/changelog/migrations/db.changelog-202508291027.sql::202508291027::livia ran successfully in 197ms
-Running Changeset: db/changelog/migrations/db.changelog-202508291817.sql::202508291817::livia
-ago. 30, 2025 10:17:37 AM liquibase.changelog
-INFO: Custom SQL executed
-ago. 30, 2025 10:17:37 AM liquibase.changelog
-INFO: ChangeSet db/changelog/migrations/db.changelog-202508291817.sql::202508291817::livia ran successfully in 115ms
-Running Changeset: db/changelog/migrations/db.changelog-202508291820.sql::202508291820::livia
-ago. 30, 2025 10:17:37 AM liquibase.changelog
-INFO: Custom SQL executed
-ago. 30, 2025 10:17:37 AM liquibase.changelog
-INFO: ChangeSet db/changelog/migrations/db.changelog-202508291820.sql::202508291820::livia ran successfully in 110ms
 
 UPDATE SUMMARY
-Run:                          3
-Previously run:               1
+Run:                          0
+Previously run:               4
 Filtered out:                 0
 -------------------------------
 Total change sets:            4
 
-ago. 30, 2025 10:17:37 AM liquibase.util
+set. 14, 2025 5:13:00 PM liquibase.util
 INFO: UPDATE SUMMARY
-ago. 30, 2025 10:17:37 AM liquibase.util
-INFO: Run:                          3
-ago. 30, 2025 10:17:37 AM liquibase.util
-INFO: Previously run:               1
-ago. 30, 2025 10:17:37 AM liquibase.util
+set. 14, 2025 5:13:00 PM liquibase.util
+INFO: Run:                          0
+set. 14, 2025 5:13:00 PM liquibase.util
+INFO: Previously run:               4
+set. 14, 2025 5:13:00 PM liquibase.util
 INFO: Filtered out:                 0
-ago. 30, 2025 10:17:37 AM liquibase.util
+set. 14, 2025 5:13:00 PM liquibase.util
 INFO: -------------------------------
-ago. 30, 2025 10:17:37 AM liquibase.util
+set. 14, 2025 5:13:00 PM liquibase.util
 INFO: Total change sets:            4
-ago. 30, 2025 10:17:37 AM liquibase.util
+set. 14, 2025 5:13:00 PM liquibase.util
 INFO: Update summary generated
-ago. 30, 2025 10:17:37 AM liquibase.command
-INFO: Update command completed successfully.
-Liquibase: Update has been successful. Rows affected: 3
-ago. 30, 2025 10:17:37 AM liquibase.lockservice
+set. 14, 2025 5:13:00 PM liquibase.lockservice
 INFO: Successfully released change log lock
-ago. 30, 2025 10:17:37 AM liquibase.command
+set. 14, 2025 5:13:00 PM liquibase.command
 INFO: Command execution complete

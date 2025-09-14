@@ -7,12 +7,12 @@ CREATE TABLE boards_columns(
     name        VARCHAR(255)    NOT NULL,
     `order`     INTEGER         NOT NULL,
     kind        VARCHAR(7)      NOT NULL,
-    boards_id   BIGINT          NOT NULL,
+    board_id   BIGINT          NOT NULL,
     CONSTRAINT fk_boards_columns_boards
-        FOREIGN KEY (boards_id)
+        FOREIGN KEY (board_id)
         REFERENCES boards(id) ON DELETE CASCADE,
     CONSTRAINT un_id_order
-        UNIQUE KEY un_board_id_order(boards_id, `order`)
+        UNIQUE KEY un_board_id_order(board_id, `order`)
 ) ENGINE=InnoDB;
 
 --rollback DROP TABLE boards_columns
